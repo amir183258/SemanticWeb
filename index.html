@@ -87,25 +87,35 @@
     <script>
         var getValueInput = () => {
             var inputValue = document.getElementById("search").value;
-            var inputValue = inputValue.charAt(0).toUpperCase() + inputValue.slice(1)
+            inputValue[0] = inputValue[0].toUpperCase();
+            var inputValue = inputValue.charAt(0).toUpperCase() + inputValue.slice(1);
+
             // console.log(inputValue)
             var url = "https://dbpedia.org/sparql";
             var query = [
                 `select * { <http://dbpedia.org/resource/${inputValue}> geo:lat ?lat ; geo:long ?long }`
             ].join(" ");
             var temp = url + "?query=" + encodeURIComponent(query) + "&format=xml"
+            console.log(temp);
+            
             // console.log(temp)
         
             const xhttp = new XMLHttpRequest();
-            xhttp.onload = function () {
-                var xml = xhttp.respnseXML;
-                document.getElementById('lat').innerHTML=xml.getElementsByTagName('literal')[0].nodeValue;
-                document.getElementById('long').innerHTML=xml.getElementsByTagName('literal')[0].nodeValue;
-  
+            xhttp.onload= function () {
+                var xmlResponseFromDBPedia= xhttp.response;
+
+                parser = new DOMParser();
+                parsedXmlResponseFromDBPedia = parser.parseFromString(xmlResponseFromDBPedia, "text/xml");
+
+                responseLat = parsedXmlResponseFromDBPedia.getElementsByTagName('literal')[0].childNodes[0].nodeValue;
+                responseLong = parsedXmlResponseFromDBPedia.getElementsByTagName('literal')[1].childNodes[0].nodeValue;
+
+                document.getElementById('lat').innerHTML = responseLat;
+                document.getElementById('long').innerHTML = responseLong;
+            }
 
             xhttp.open("GET", temp);
             xhttp.send();
-        }
     }
 
     </script>
