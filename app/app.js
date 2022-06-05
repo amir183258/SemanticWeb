@@ -1,9 +1,11 @@
+// Global variable for user place input.
+var inputValue;
 getValueInput = () => {
     const userInputBox = document.getElementById("userInput")
     var userInput = userInputBox.value;
     userInputBox.value = "";
 
-    var inputValue = userInput.charAt(0).toUpperCase() + userInput.slice(1);
+    inputValue = userInput.charAt(0).toUpperCase() + userInput.slice(1);
 
     var url = "https://dbpedia.org/sparql";
     var query = [
@@ -28,7 +30,8 @@ getValueInput = () => {
         }
         finally {
             displayCoordinates(inputValue, responseLat, responseLong);
-            zoomToCity(responseLat, responseLong)
+            zoomToCity(responseLat, responseLong);
+            showInformation();
         }
 
 
@@ -57,9 +60,9 @@ function displayCoordinates(city, lat, long) {
 }
 
 function zoomToCity(lat, long) {
-
     lat = parseFloat(lat);
     long = parseFloat(long);
+
 
     view.setZoom(10)
 
@@ -70,29 +73,30 @@ function zoomToCity(lat, long) {
     // view.setCenter(ol.proj.fromLonLat([long, lat]))
 }
 
+function showInformation() {
+    alert(inputValue)
 
 
-showInformation = () => {
-    var long = document.getElementById('long').innerHTML
-    var lat = document.getElementById('lat').innerHTML
+    // var long = document.getElementById('long').innerHTML
+    // var lat = document.getElementById('lat').innerHTML
 
-    var inputValue = document.getElementById('').value;
-    var url = "http://dbpedia.org/resource/sparql"
+    // var inputValue = document.getElementById('').value;
+    // var url = "http://dbpedia.org/resource/sparql"
 
-    var query2 = [
-        `select *{<http://dbpedia.org/resource/${inputValue}> dbo:abstract ?abstract}`
-    ].join(" ");
+    // var query2 = [
+    //     `select *{<http://dbpedia.org/resource/${inputValue}> dbo:abstract ?abstract}`
+    // ].join(" ");
 
-    var temp2 = url + "?query=" + encodeURIComponent(query2) + "&format=xml"
-    const xhttp = new XMLHttpRequest();
-    xhttp.onload = function () {
-        var xml = xhttp.responseXML;
-        document.getElementById('abstract').innerHTML = xml.getElementsByTagName('')
-    }
-
+    // var temp2 = url + "?query=" + encodeURIComponent(query2) + "&format=xml"
+    // const xhttp = new XMLHttpRequest();
+    // xhttp.onload = function () {
+    //     var xml = xhttp.responseXML;
+    //     document.getElementById('abstract').innerHTML = xml.getElementsByTagName('')
+    // }
 
 
-    xhttp.open("GET", temp);
-    xhttp.send();
-    console.log(lat)
+
+    // xhttp.open("GET", temp);
+    // xhttp.send();
+    // console.log(lat)
 }
