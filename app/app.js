@@ -30,7 +30,7 @@ getValueInput = () => {
         }
         finally {
             displayCoordinates(inputValue, responseLat, responseLong);
-            zoomToCity(responseLat, responseLong);
+            zoomToPlace(responseLat, responseLong);
             showInformation();
         }
 
@@ -59,7 +59,7 @@ function displayCoordinates(city, lat, long) {
     }
 }
 
-function zoomToCity(lat, long) {
+function zoomToPlace(lat, long) {
     if (lat && long) {
         lat = parseFloat(lat);
         long = parseFloat(long);
