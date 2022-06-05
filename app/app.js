@@ -1,9 +1,11 @@
+// Global variable for user place input.
+var inputValue;
 getValueInput = () => {
     const userInputBox = document.getElementById("userInput")
     var userInput = userInputBox.value;
     userInputBox.value = "";
 
-    var inputValue = userInput.charAt(0).toUpperCase() + userInput.slice(1);
+    inputValue = userInput.charAt(0).toUpperCase() + userInput.slice(1);
 
     var url = "https://dbpedia.org/sparql";
     var query = [
@@ -28,7 +30,8 @@ getValueInput = () => {
         }
         finally {
             displayCoordinates(inputValue, responseLat, responseLong);
-            zoomToCity(responseLat, responseLong)
+            zoomToCity(responseLat, responseLong);
+            showInformation();
         }
 
 
@@ -62,36 +65,37 @@ function displayCoordinates(city, lat, long) {
 }
 
 function zoomToCity(lat, long) {
-
     lat = parseFloat(lat);
     long = parseFloat(long);
 
-    view.setZoom(10)
-    view.setCenter(ol.proj.fromLonLat([long, lat]))
+    view.setZoom(10);
+    view.setCenter(ol.proj.fromLonLat([long, lat]));
 }
 
-showInformation = () => {
-    var long = document.getElementById('long').innerHTML
-    var lat = document.getElementById('lat').innerHTML
+function showInformation() {
+    alert(inputValue)
 
-    var inputValue = document.getElementById('').value;
-    var url = "http://dbpedia.org/resource/sparql"
+    // var long = document.getElementById('long').innerHTML
+    // var lat = document.getElementById('lat').innerHTML
 
-    var query2 = [
-        `select *{<http://dbpedia.org/resource/${inputValue}> dbo:abstract ?abstract}`
-    ].join(" ");
+    // var inputValue = document.getElementById('').value;
+    // var url = "http://dbpedia.org/resource/sparql"
 
-    var temp2 = url + "?query=" + encodeURIComponent(query2) + "&format=xml"
-    const xhttp = new XMLHttpRequest();
-    xhttp.onload = function () {
-        var xml = xhttp.responseXML;
-        document.getElementById('abstract').innerHTML = xml.getElementsByTagName('')
-    }
+    // var query2 = [
+    //     `select *{<http://dbpedia.org/resource/${inputValue}> dbo:abstract ?abstract}`
+    // ].join(" ");
+
+    // var temp2 = url + "?query=" + encodeURIComponent(query2) + "&format=xml"
+    // const xhttp = new XMLHttpRequest();
+    // xhttp.onload = function () {
+    //     var xml = xhttp.responseXML;
+    //     document.getElementById('abstract').innerHTML = xml.getElementsByTagName('')
+    // }
 
 
 
-    xhttp.open("GET", temp);
-    xhttp.send();
-    console.log(lat)
+    // xhttp.open("GET", temp);
+    // xhttp.send();
+    // console.log(lat)
 }
 
