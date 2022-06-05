@@ -60,16 +60,18 @@ function displayCoordinates(city, lat, long) {
 }
 
 function zoomToCity(lat, long) {
-    lat = parseFloat(lat);
-    long = parseFloat(long);
+    if (lat && long) {
+        lat = parseFloat(lat);
+        long = parseFloat(long);
 
 
-    view.setZoom(10)
+        view.setZoom(10)
 
-    view.animate({
-        center: ol.proj.fromLonLat([long, lat]),
-        duration: 2000
-    })
+        view.animate({
+            center: ol.proj.fromLonLat([long, lat]),
+            duration: 2000
+        })
+    }
     // view.setCenter(ol.proj.fromLonLat([long, lat]))
 }
 
