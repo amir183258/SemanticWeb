@@ -15,110 +15,29 @@
 
 <body>
     <div id="map" class="map"></div>
-    <div id="popup"></div>
-    <div id="layertree">
-        <div style="background: rgb(121, 121, 223);">
-        <div class="input-group mb-3">
-            <input type="text" class=" form-control" id="search" placeholder="Search">
-            <div class="input-group-append">
-                <button class="btn btn-success" onclick="getValueInput()" type="submit">Go</button>
-            </div>
-            
-            <div>
-                long = <p id="long"></p>
-                lat = <p id="lat"></p>
-            </div>
+        <div id="popup"></div>
+        <div id="layertree">
+            <div style="background: rgb(121, 121, 223);">
+            <div class="input-group mb-3">
+                <input type="text" class=" form-control" id="search" placeholder="Search">
+                <div class="input-group-append">
+                    <button class="btn btn-success" onclick="getValueInput()" type="submit">Go</button>
+                </div>
+                
+                <div>
+                    long = <p id="long"></p>
+                    lat = <p id="lat"></p>
+                </div>
 
+            </div>
         </div>
     </div>
-</div>
 
+    <!-- Map Display -->
+    <script src="app/map.js"></script>
 
-    <script type="text/javascript">
-
-        ///////////////////////OSM/////////////////////////////////////////
-
-        var osmSource = new ol.source.OSM()
-        var osm = new ol.layer.Tile({
-            source: osmSource
-        })
-
-        ///////////////////////interaction Draw//////////////////////////////  
-
-        var drawSource = new ol.source.Vector()
-        var drawLayer = new ol.layer.Vector({
-            source: drawSource
-        })
-        var draw = new ol.interaction.Draw({
-            source: drawSource,
-            type: 'Point'
-        })
-
-
-        ////////////////////////overlay///////////////////////////////
-
-        var overlay = new ol.Overlay({
-            element: document.getElementById('popup')
-        })
-
-        var view = new ol.View({
-            zoom: 5.9,
-            center: ol.proj.fromLonLat([51, 33])
-        })
-
-        //////////////////add  map/////////////////// 
-
-        var map = new ol.Map({
-            target: 'map',
-            view: view
-
-        });
-        //////////////////////////add layers to map////////////////////// 
-        map.addLayer(osm)
-        map.addControl(new ol.control.FullScreen())
-        map.addLayer(drawLayer)
-        map.addOverlay(overlay)
-
-        // map.on('singleclick', function(evt) {
-
-
-    </script>
-
-    <script>
-        var getValueInput = () => {
-            var inputValue = document.getElementById("search").value;
-            inputValue[0] = inputValue[0].toUpperCase();
-            var inputValue = inputValue.charAt(0).toUpperCase() + inputValue.slice(1);
-
-            // console.log(inputValue)
-            var url = "https://dbpedia.org/sparql";
-            var query = [
-                `select * { <http://dbpedia.org/resource/${inputValue}> geo:lat ?lat ; geo:long ?long }`
-            ].join(" ");
-            var temp = url + "?query=" + encodeURIComponent(query) + "&format=xml"
-            console.log(temp);
-            
-            // console.log(temp)
-        
-            const xhttp = new XMLHttpRequest();
-            xhttp.onload= function () {
-                var xmlResponseFromDBPedia= xhttp.response;
-
-                parser = new DOMParser();
-                parsedXmlResponseFromDBPedia = parser.parseFromString(xmlResponseFromDBPedia, "text/xml");
-
-                responseLat = parsedXmlResponseFromDBPedia.getElementsByTagName('literal')[0].childNodes[0].nodeValue;
-                responseLong = parsedXmlResponseFromDBPedia.getElementsByTagName('literal')[1].childNodes[0].nodeValue;
-
-                document.getElementById('lat').innerHTML = responseLat;
-                document.getElementById('long').innerHTML = responseLong;
-            }
-
-            xhttp.open("GET", temp);
-            xhttp.send();
-    }
-
-    </script>
+    <!-- Main App -->
+    <script src="app/app.js"></script>
 
 </body>
 
