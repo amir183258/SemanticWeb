@@ -28,8 +28,7 @@ getValueInput = () => {
         }
         finally {
             displayCoordinates(inputValue, responseLat, responseLong);
-            zoomin(responseLat, responseLong)
-
+            zoomToCity(responseLat, responseLong)
         }
 
 
@@ -37,32 +36,15 @@ getValueInput = () => {
     xhttp.open("GET", temp);
     xhttp.send();
 
-    function zoomin(lat, long) {
-        alert(lat)
-        alert(long)
-        console.log(long)
-        view.setZoom(10)
-        view.setCenter(ol.proj.fromLonLat([long,lat]))
-        console.log(long)
-    }
-
-
-    // console.log(responseLong)
-
-
-
-    console.log(long)
-
     // view.animate({
     //     center: ol.proj.fromLonLat([responseLong, responseLat]),
     //     duration: 2000
     // });
 
-    myView = new ol.View({
-        center: ol.proj.transform([35.6892, 51.3889], "EPSG:4326", "EPSG:3857"), zoom: 11
-    });
-    map.setView(myView);
-
+    //myView = new ol.View({
+    //    center: ol.proj.transform([35.6892, 51.3889], "EPSG:4326", "EPSG:3857"), zoom: 11
+    //});
+    //map.setView(myView);
 }
 
 function displayCoordinates(city, lat, long) {
@@ -77,9 +59,17 @@ function displayCoordinates(city, lat, long) {
         resultBox.innerHTML = "Not in knowledge graph!";
         resultBox.style.display = "block";
     }
-
-
 }
+
+function zoomToCity(lat, long) {
+
+    lat = parseFloat(lat);
+    long = parseFloat(long);
+
+    view.setZoom(10)
+    view.setCenter(ol.proj.fromLonLat([long, lat]))
+}
+
 showInformation = () => {
     var long = document.getElementById('long').innerHTML
     var lat = document.getElementById('lat').innerHTML
