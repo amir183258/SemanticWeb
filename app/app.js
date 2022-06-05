@@ -74,7 +74,8 @@ function zoomToCity(lat, long) {
 }
 
 function showInformation() {
-    alert(inputValue)
+    console.log("this is a test")
+    
 
 
     // var long = document.getElementById('long').innerHTML
