@@ -63,7 +63,9 @@ function zoomToPlace(lat, long) {
         long = parseFloat(long);
 
         zoomDestinateion = ol.proj.fromLonLat([long, lat]);
-        flyTo(zoomDestinateion, function() {});
+        view.setCenter(zoomDestinateion);
+        view.setZoom(10);
+        // flyTo(zoomDestinateion, function() {});
 
         // view.setZoom(10)
 
