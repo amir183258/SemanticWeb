@@ -39,11 +39,6 @@ getValueInput = () => {
     xhttp.open("GET", temp);
     xhttp.send();
 
-    // view.animate({
-    //     center: ol.proj.fromLonLat([responseLong, responseLat]),
-    //     duration: 2000
-    // });
-
     //myView = new ol.View({
     //    center: ol.proj.transform([35.6892, 51.3889], "EPSG:4326", "EPSG:3857"), zoom: 11
     //});
@@ -68,12 +63,19 @@ function zoomToCity(lat, long) {
     lat = parseFloat(lat);
     long = parseFloat(long);
 
-    view.setZoom(10);
-    view.setCenter(ol.proj.fromLonLat([long, lat]));
+
+    view.setZoom(10)
+
+    view.animate({
+        center: ol.proj.fromLonLat([long, lat]),
+        duration: 2000
+    })
+    // view.setCenter(ol.proj.fromLonLat([long, lat]))
 }
 
 function showInformation() {
     alert(inputValue)
+
 
     // var long = document.getElementById('long').innerHTML
     // var lat = document.getElementById('lat').innerHTML
@@ -98,4 +100,3 @@ function showInformation() {
     // xhttp.send();
     // console.log(lat)
 }
-
