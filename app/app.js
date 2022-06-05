@@ -33,8 +33,6 @@ getValueInput = () => {
             zoomToPlace(responseLat, responseLong);
             showInformation();
         }
-
-
     }
     xhttp.open("GET", temp);
     xhttp.send();
@@ -64,15 +62,61 @@ function zoomToPlace(lat, long) {
         lat = parseFloat(lat);
         long = parseFloat(long);
 
+        zoomDestinateion = ol.proj.fromLonLat([long, lat]);
+        flyTo(zoomDestinateion, function() {});
 
-        view.setZoom(10)
+        // view.setZoom(10)
 
-        view.animate({
-            center: ol.proj.fromLonLat([long, lat]),
-            duration: 2000
-        })
+        // view.animate({
+        //     zoom: 5.9,
+        //     duration: 2000
+        // })
+
+        // view.animate({
+        //     center: ol.proj.fromLonLat([long, lat]),
+        //     zoom: 10,
+        //     duration: 2000
+        // })
     }
     // view.setCenter(ol.proj.fromLonLat([long, lat]))
+}
+
+function flyTo(location, done) {
+    var zoom = view.getZoom();
+
+    var finalZoom = 10;
+    if (zoom > finalZoom - 4) {
+        zoomOutValue = 4;
+        duration = 4000
+    }
+    else {
+        zoomOutValue = 1;
+        duration = 2000;
+    }
+
+    var parts = 2;
+    var called = false;
+    function callback(complete) {
+        --parts;
+        if (called) {
+        return;
+        }
+        if (parts === 0 || !complete) {
+        called = true;
+        done(complete);
+        }
+    }
+    view.animate({
+        center: location,
+        duration: duration
+    }, callback);
+    view.animate({
+        zoom: zoom - zoomOutValue,
+        duration: duration / 2
+    }, {
+        zoom: finalZoom,
+        duration: duration / 2
+    }, callback);
 }
 
 function showInformation() {
