@@ -68,22 +68,21 @@ function marker(lat, long) {
     lat = parseFloat(lat);
     long = parseFloat(long);
 
-    var markers = new ol.layer.Vector({
-        source: new ol.source.Vector(),
-        style: new ol.style.Style({
-            image: new ol.style.Icon({
-                anchor: [0.5, 1],
-                src: 'https://openlayers.org/en/v3.20.1/examples/data/icon.png'
-            })
-        })
+    // Vienna marker
+    var pos = ol.proj.fromLonLat([long, lat]);
+    var marker = new ol.Overlay({
+        position: pos,
+        positioning: 'center-center',
+        element: document.getElementById('marker'),
+        stopEvent: false
     });
-    map.addLayer(markers);
-
-    var marker = new ol.Feature(new ol.geom.Point(ol.proj.fromLonLat([long, lat])));
-    markers.getSource().addFeature(marker);
+    map.addOverlay(marker);
+    
+    const markerButton = document.getElementById("markerButton");
+    markerButton.addEventListener("click", showInformation);
 }
 
-function showInformation(click) {
+function showInformation() {
     var url = "https://dbpedia.org/sparql";
 
     var query2 = [
@@ -106,6 +105,7 @@ function showInformation(click) {
             inputValue = responseAbstract = false;
         }
         finally {
+            alert(responseAbstract)
             overlay.setPosition(long, lat);
             map.addOverlay(overlay);
             document.getElementById("abstract").innerHTML = responseAbstract;
