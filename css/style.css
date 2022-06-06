@@ -3,15 +3,6 @@
     padding: 0;
     box-sizing: border-box;
 }
-/*
- #marker {
-  width: 20px;
-  height: 20px;
-  border: 1px solid #088;
-  border-radius: 10px;
-  background-color: #0FF;
-  opacity: 0.5;
-}*/
 
 .map {
     height: 100vh;
@@ -42,7 +33,6 @@
     left: 4%;
     padding: 1% 1%;
 }
-
 
 input[type=text]{
     border:2px solid #aaa;
