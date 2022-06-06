@@ -32,7 +32,7 @@ getValueInput = () => {
         finally {
             displayCoordinates(inputValue, responseLat, responseLong);
             zoomToCity(responseLat, responseLong);
-            marker(responseLat, responseLong);
+            putMarker(responseLat, responseLong);
         }
     }
     xhttp.open("GET", queryURL);
@@ -42,6 +42,7 @@ getValueInput = () => {
 function displayCoordinates(city, lat, long) {
     const resultBox = document.getElementById("resultCoordinates");
 
+    // IF there is a correct respnose from DBPedia:
     if (city && lat && long) {
         resultBox.style.display = "block";
         outputMessage = city + " Coordinates = (" + lat + ", " + long + ")";
@@ -55,31 +56,32 @@ function displayCoordinates(city, lat, long) {
 
 function zoomToCity(lat, long) {
     if (lat && long) {
-    lat = parseFloat(lat);
-    long = parseFloat(long);
+        lat = parseFloat(lat);
+        long = parseFloat(long);
 
-    view.setZoom(12)
-    view.setCenter(ol.proj.fromLonLat([long, lat]))
+        view.setZoom(12)
+        view.setCenter(ol.proj.fromLonLat([long, lat]))
     }
 }
 
-function marker(lat, long) {
+function putMarker(lat, long) {
     lat = parseFloat(lat);
     long = parseFloat(long);
     const markerButton = document.getElementById("markerButton");
 
+    // IF there is a correct respnose from DBPedia:
     if (lat && long) {
-    var pos = ol.proj.fromLonLat([long, lat]);
-    var marker = new ol.Overlay({
-        position: pos,
-        positioning: 'center-center',
-        element: document.getElementById('marker'),
-        stopEvent: false
-    });
-    map.addOverlay(marker);
-    markerButton.style.display = "block";
-    
-    markerButton.addEventListener("click", showInformation);
+        var pos = ol.proj.fromLonLat([long, lat]);
+        var marker = new ol.Overlay({
+            position: pos,
+            positioning: 'center-center',
+            element: document.getElementById('marker'),
+            stopEvent: false
+        });
+        map.addOverlay(marker);
+        markerButton.style.display = "block";
+        
+        markerButton.addEventListener("click", showInformation);
     }
     else
         markerButton.style.display = "none";
