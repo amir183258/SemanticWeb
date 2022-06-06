@@ -31,11 +31,8 @@ getValueInput = () => {
         }
         finally {
             displayCoordinates(inputValue, responseLat, responseLong);
-
-            if (responseLat && responseLong) {
             zoomToCity(responseLat, responseLong);
             marker(responseLat, responseLong);
-            }
         }
     }
     xhttp.open("GET", queryURL);
@@ -57,18 +54,21 @@ function displayCoordinates(city, lat, long) {
 }
 
 function zoomToCity(lat, long) {
+    if (lat && long) {
     lat = parseFloat(lat);
     long = parseFloat(long);
 
     view.setZoom(12)
     view.setCenter(ol.proj.fromLonLat([long, lat]))
+    }
 }
 
 function marker(lat, long) {
     lat = parseFloat(lat);
     long = parseFloat(long);
+    const markerButton = document.getElementById("markerButton");
 
-    // Vienna marker
+    if (lat && long) {
     var pos = ol.proj.fromLonLat([long, lat]);
     var marker = new ol.Overlay({
         position: pos,
@@ -77,9 +77,12 @@ function marker(lat, long) {
         stopEvent: false
     });
     map.addOverlay(marker);
+    markerButton.style.display = "block";
     
-    const markerButton = document.getElementById("markerButton");
     markerButton.addEventListener("click", showInformation);
+    }
+    else
+        markerButton.style.display = "none";
 }
 
 function showInformation() {
