@@ -1,6 +1,9 @@
 // Global variable for user place input.
 var inputValue;
 
+// Global variable for removing abstract box when user click on Go button.
+const resultBox = document.getElementById("resultAbstract");
+
 getValueInput = () => {
     const userInputBox = document.getElementById("userInput")
     var userInput = userInputBox.value;
@@ -33,16 +36,19 @@ getValueInput = () => {
             displayCoordinates(inputValue, responseLat, responseLong);
             zoomToCity(responseLat, responseLong);
             putMarker(responseLat, responseLong);
+
+            resultBox.style.display = "none";
+
         }
     }
     xhttp.open("GET", queryURL);
     xhttp.send();
 }
 
+// IF there will be a correct respnose from DBPedia:
 function displayCoordinates(city, lat, long) {
     const resultBox = document.getElementById("resultCoordinates");
 
-    // IF there is a correct respnose from DBPedia:
     if (city && lat && long) {
         resultBox.style.display = "block";
         outputMessage = city + " Coordinates = (" + lat + ", " + long + ")";
@@ -65,12 +71,13 @@ function zoomToCity(lat, long) {
 }
 
 function putMarker(lat, long) {
-    lat = parseFloat(lat);
-    long = parseFloat(long);
-    const markerButton = document.getElementById("markerButton");
-
-    // IF there is a correct respnose from DBPedia:
     if (lat && long) {
+        lat = parseFloat(lat);
+        long = parseFloat(long);
+
+        const markerBox = document.getElementById("marker");
+        markerBox.style.display = "block";
+
         var pos = ol.proj.fromLonLat([long, lat]);
         var marker = new ol.Overlay({
             position: pos,
@@ -79,12 +86,15 @@ function putMarker(lat, long) {
             stopEvent: false
         });
         map.addOverlay(marker);
+
+        const markerButton = document.getElementById("markerButton");
         markerButton.style.display = "block";
-        
         markerButton.addEventListener("click", showInformation);
     }
-    else
-        markerButton.style.display = "none";
+    else {
+        const markerBox = document.getElementById("marker");
+        markerBox.style.display = "none";
+    }
 }
 
 function showInformation() {
@@ -110,12 +120,22 @@ function showInformation() {
             inputValue = responseAbstract = false;
         }
         finally {
-            alert(responseAbstract)
-            overlay.setPosition(long, lat);
-            map.addOverlay(overlay);
-            document.getElementById("abstract").innerHTML = responseAbstract;
+            displayabstract(responseAbstract, inputValue);
         }
     }
     xhttp.open("GET", queryURL2);
     xhttp.send();
+}
+
+function displayabstract(abs, input) {
+    // resultBox variable is global.
+    if (abs && input) {
+        if (resultBox.style.display === "none") {
+            resultBox.style.display = "block";
+            outputMessage = "<b>Abstract information of " + input + " :</br></b>" + abs;
+            resultBox.innerHTML = outputMessage;
+        }
+        else
+        resultBox.style.display = "none";
+    }
 }

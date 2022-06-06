@@ -8,7 +8,10 @@
         <link rel="stylesheet" href="https://openlayers.org/en/v3.20.1/css/ol.css" type="text/css">
 
         <!-- CSS File -->
-        <link rel="stylesheet" href="css/style.css">
+        <link rel="stylesheet" href="style.css">
+
+        <!-- Goole Icons -->
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
         <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
@@ -23,21 +26,22 @@
     </head>
     <body>
         <div id="map" class="map"></div>
+        <div id="marker" class="hidden" title="Marker"><i class="material-icons cursor-pointer" id="markerButton" style="font-size:48px;color:#7b98bc">place</i></div>
         <div id="popup"></div>
-        <div id="layertree">
-            <div style="background: rgb(121, 121, 223);">
-                <div class="input-group mb-3">
-                    <input type="text" class=" form-control" id="search" placeholder="Search">
-                    <div class="input-group-append">
-                        <button class="btn btn-success" onclick="getValueInput()" type="submit">Go</button>
-                    </div>
-                    
-                    <div>
-                        long = <p id="long"></p>
-                        lat = <p id="lat"></p>
-                    </div>
 
-                </div>
+        <!-- Searching Cities -->
+        <div class="flex flex-col items-begin justify-between absolute top-2.5 left-20 w-80">
+            <!-- Search Box -->
+            <div class="flex flex-row">
+                <input type="text" class="h-10 p-2 w-60" id="userInput" placeholder="Enter a Place...">
+                <button class="w-20 cursor-pointer text-white bg-[#7b98bc] hover:bg-[#4a74a8]" onclick="getValueInput()" type="submit">Go</button>
+            </div>
+            <!-- Result Box -->
+            <div class="p-2 hidden text-white bg-[#7b98bc] mt-1" id="resultCoordinates">
+                <!-- We will show coordinates here. -->
+            </div>
+            <div  class="p-2 hidden overflow-y-auto max-h-96 text-white bg-[#7b98bc] mt-1 text-justify" id="resultAbstract"  >
+                <!-- Extra information about the considered place  -->
             </div>
         </div>
 
@@ -46,6 +50,5 @@
 
         <!-- Main App -->
         <script src="app/app.js"></script>
-
     </body>
 </html>

@@ -23,9 +23,11 @@ var overlay = new ol.Overlay({
     element: document.getElementById('popup')
 })
 
+////////////////////////view///////////////////////////////
+
 var view = new ol.View({
-    zoom: 5.9,
-    center: ol.proj.fromLonLat([51, 33])
+    zoom: 2.5,
+    center: ol.proj.fromLonLat([20, 35.6892])
 })
 
 //////////////////add  map/////////////////// 
@@ -41,4 +43,16 @@ map.addControl(new ol.control.FullScreen())
 map.addLayer(drawLayer)
 map.addOverlay(overlay)
 
-// map.on('singleclick', function(evt) {
+
+
+
+
+
+// * Add a click handler to hide the popup.
+// * @return { boolean } Don't follow the href.
+
+// closer.onclick = function () {
+//     overlay.setPosition(undefined);
+//     closer.blur();
+//     return false;
+// };
