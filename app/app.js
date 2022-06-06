@@ -31,8 +31,11 @@ getValueInput = () => {
         }
         finally {
             displayCoordinates(inputValue, responseLat, responseLong);
+
+            if (responseLat && responseLong) {
             zoomToCity(responseLat, responseLong);
             marker(responseLat, responseLong);
+            }
         }
     }
     xhttp.open("GET", queryURL);
@@ -54,21 +57,17 @@ function displayCoordinates(city, lat, long) {
 }
 
 function zoomToCity(lat, long) {
-    if (lat && long) {
     lat = parseFloat(lat);
     long = parseFloat(long);
 
     view.setZoom(12)
     view.setCenter(ol.proj.fromLonLat([long, lat]))
-    }
 }
 
 function marker(lat, long) {
     lat = parseFloat(lat);
     long = parseFloat(long);
-    const markerButton = document.getElementById("markerButton");
 
-    if (lat && long) {
     var pos = ol.proj.fromLonLat([long, lat]);
     var marker = new ol.Overlay({
         position: pos,
@@ -77,12 +76,9 @@ function marker(lat, long) {
         stopEvent: false
     });
     map.addOverlay(marker);
-    markerButton.style.display = "block";
     
+    const markerButton = document.getElementById("markerButton");
     markerButton.addEventListener("click", showInformation);
-    }
-    else
-        markerButton.style.display = "none";
 }
 
 function showInformation() {
@@ -108,12 +104,23 @@ function showInformation() {
             inputValue = responseAbstract = false;
         }
         finally {
-            alert(responseAbstract)
-            overlay.setPosition(long, lat);
-            map.addOverlay(overlay);
-            document.getElementById("abstract").innerHTML = responseAbstract;
+            displayabstract(responseAbstract,inputValue) ;
         }
     }
     xhttp.open("GET", queryURL2);
     xhttp.send();
+}
+
+function displayabstract(abs,input) {
+    const resultBox = document.getElementById("resultAbstract");
+
+    if (abs && input) {
+        resultBox.style.display = "block";
+        outputMessage = "Abstract information of "+ input + " :" +abs;
+        resultBox.innerHTML = outputMessage;
+    }
+    else {
+        resultBox.innerHTML = "Not in knowledge graph!";
+        resultBox.style.display = "block";
+    }
 }
