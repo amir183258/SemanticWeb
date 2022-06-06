@@ -1,5 +1,6 @@
 // Global variable for user place input.
 var inputValue;
+
 getValueInput = () => {
     const userInputBox = document.getElementById("userInput")
     var userInput = userInputBox.value;
@@ -30,19 +31,16 @@ getValueInput = () => {
         }
         finally {
             displayCoordinates(inputValue, responseLat, responseLong);
+
+            if (responseLat && responseLong) {
             zoomToCity(responseLat, responseLong);
             marker(responseLat, responseLong);
+            }
         }
-
-
     }
     xhttp.open("GET", queryURL);
     xhttp.send();
-
 }
-
-
-// abstract query
 
 function displayCoordinates(city, lat, long) {
     const resultBox = document.getElementById("resultCoordinates");
@@ -85,10 +83,7 @@ function marker(lat, long) {
     markers.getSource().addFeature(marker);
 }
 
-
-
 function showInformation(click) {
-    console.log(inputValue)
     var url = "https://dbpedia.org/sparql";
 
     var query2 = [
@@ -106,18 +101,16 @@ function showInformation(click) {
 
         try {
             var responseAbstract = parsedXmlResponseFromDBPedia.getElementsByTagName('literal')[0].childNodes[0].nodeValue;
-
         }
         catch (e) {
             inputValue = responseAbstract = false;
         }
         finally {
-            overlay.setPosition(long, lat)
-            map.addOverlay(overlay)
-            document.getElementById("abstract").innerHTML = responseAbstract
+            overlay.setPosition(long, lat);
+            map.addOverlay(overlay);
+            document.getElementById("abstract").innerHTML = responseAbstract;
         }
     }
     xhttp.open("GET", queryURL2);
     xhttp.send();
 }
-
